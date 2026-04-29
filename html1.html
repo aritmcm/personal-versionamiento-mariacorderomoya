@@ -21,11 +21,12 @@
     }
 
     html, body {
-      width: 100%; height: 100%;
-      overflow: hidden;
+      width: 100%;
+      overflow-x: hidden;
       background: var(--deep);
       font-family: 'Montserrat', sans-serif;
       color: var(--white);
+      scroll-behavior: smooth;
     }
 
     body::before {
@@ -76,6 +77,7 @@
       background-size: 60px 60px;
     }
 
+    /* ── COVER ── */
     .cover {
       position: relative; z-index: 10;
       width: 100vw; height: 100vh;
@@ -85,6 +87,143 @@
       padding: 2rem;
     }
 
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--glow); opacity: 0;
+      animation: fadeIn 1s ease forwards 2.4s;
+      cursor: pointer;
+    }
+    .scroll-hint .arrow {
+      width: 20px; height: 20px;
+      border-right: 1px solid var(--glow);
+      border-bottom: 1px solid var(--glow);
+      transform: rotate(45deg);
+      animation: bounce 1.6s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about {
+      position: relative; z-index: 10;
+      width: 100vw; min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 6rem 2rem;
+    }
+
+    .about-inner {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    .about-tag {
+      font-size: .7rem; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--glow);
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2.5rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .about-tag.visible { opacity: 1; transform: translateY(0); }
+    .about-tag::after {
+      content: '';
+      flex: 1; max-width: 60px; height: 1px;
+      background: var(--azure);
+    }
+
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1.05;
+      margin-bottom: 2.5rem;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .8s ease .1s, transform .8s ease .1s;
+    }
+    .about-heading.visible { opacity: 1; transform: translateY(0); }
+    .about-heading em {
+      font-style: italic;
+      background: linear-gradient(120deg, var(--frost), var(--sky));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (max-width: 600px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(96,165,250,.12);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease, border-color .3s;
+    }
+    .about-card:hover { border-color: rgba(96,165,250,.35); }
+    .about-card.visible { opacity: 1; transform: translateY(0); }
+    .about-card:nth-child(2) { transition-delay: .15s; }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 400;
+      color: var(--frost);
+      margin-bottom: .75rem;
+    }
+    .card-text {
+      font-size: .88rem; font-weight: 200;
+      line-height: 1.85;
+      color: rgba(191,219,254,.75);
+    }
+
+    .about-body {
+      font-size: clamp(.9rem, 1.6vw, 1.05rem);
+      font-weight: 200;
+      line-height: 1.9;
+      color: rgba(191,219,254,.8);
+      border-left: 2px solid var(--azure);
+      padding-left: 1.8rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .8s ease .3s, transform .8s ease .3s;
+    }
+    .about-body.visible { opacity: 1; transform: translateY(0); }
+
+    .about-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 3rem 0;
+      opacity: 0;
+      transition: opacity .6s ease .2s;
+    }
+    .about-divider.visible { opacity: 1; }
+    .about-divider::before, .about-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+    .about-divider span { color: var(--glow); font-size: .7rem; letter-spacing: .2em; }
+
+    /* ── TITLE CHIP ── */
     .chip {
       font-family: 'Montserrat', sans-serif;
       font-weight: 200;
@@ -211,12 +350,12 @@
   </div>
 
   <div class="grid"></div>
-
   <div class="dots" id="dots"></div>
 
   <div class="corner corner-tl"></div>
   <div class="corner corner-br"></div>
 
+  <!-- Portada -->
   <main class="cover">
     <div class="chip">Bienvenid@ a mi espacio</div>
 
@@ -236,7 +375,48 @@
       Conoce más sobre mí
       <div class="cta-line" style="transform-origin:right"></div>
     </div>
+
+    <div class="scroll-hint" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+      Scroll
+      <div class="arrow"></div>
+    </div>
   </main>
+
+  <!-- Sobre mí -->
+  <section class="about" id="about">
+    <div class="about-inner">
+
+      <div class="about-tag anim">Sobre mí</div>
+
+      <h2 class="about-heading anim">
+        Estudiante de<br><em>Desarrollo Móvil</em>
+      </h2>
+
+      <div class="about-grid">
+        <div class="about-card anim">
+          <span class="card-icon">📱</span>
+          <div class="card-title">Mi carrera</div>
+          <p class="card-text">
+            Estudio Desarrollo en Aplicaciones Móviles, una carrera que me apasiona profundamente y que me ha abierto las puertas a un mundo lleno de posibilidades creativas y técnicas.
+          </p>
+        </div>
+        <div class="about-card anim">
+          <span class="card-icon">🚀</span>
+          <div class="card-title">Mi experiencia</div>
+          <p class="card-text">
+            Mi experiencia hasta el momento ha sido bastante positiva. Cada reto me ha enseñado algo nuevo y he podido comprobar cómo el esfuerzo constante da frutos reales.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-divider anim"><span>✦</span></div>
+
+      <p class="about-body anim">
+        A lo largo de este camino he logrado aprender mucho — desde conceptos fundamentales de programación hasta el desarrollo de interfaces intuitivas para dispositivos móviles. Cada proyecto, cada línea de código y cada obstáculo superado me han convertido en una mejor versión de mí misma. Estoy convencida de que apenas estoy comenzando, y eso me llena de entusiasmo por todo lo que está por venir.
+      </p>
+
+    </div>
+  </section>
 
   <script>
     const container = document.getElementById('dots');
@@ -254,6 +434,15 @@
       `;
       container.appendChild(d);
     }
+
+    // Scroll-triggered animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.anim').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
